@@ -1,0 +1,90 @@
+[gd_scene load_steps=17 format=3 uid="uid://btcp1llvpblpd"]
+
+[ext_resource type="Script" path="res://enemy/enemy.gd" id="1_keces"]
+[ext_resource type="Texture2D" uid="uid://1qk4qb5ll8cc" path="res://enemies/goblin/goblin_run_spritesheet.png" id="2_4suia"]
+[ext_resource type="Script" path="res://behavior_tree/tree_root.gd" id="3_y8m25"]
+[ext_resource type="Script" path="res://enemy/selector.gd" id="4_6ants"]
+[ext_resource type="Script" path="res://behavior_tree/sequnce.gd" id="5_3qj4c"]
+[ext_resource type="Script" path="res://enemy/idle.gd" id="5_q2etk"]
+[ext_resource type="Script" path="res://enemy/get player position.gd" id="6_255fv"]
+[ext_resource type="Script" path="res://enemy/is find player.gd" id="7_voma2"]
+[ext_resource type="Script" path="res://enemy/go to player.gd" id="8_jsj6b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o837h"]
+atlas = ExtResource("2_4suia")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0iy3n"]
+atlas = ExtResource("2_4suia")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxt5a"]
+atlas = ExtResource("2_4suia")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_747m5"]
+atlas = ExtResource("2_4suia")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u6crp"]
+atlas = ExtResource("2_4suia")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yyepa"]
+atlas = ExtResource("2_4suia")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jxg7s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o837h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0iy3n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxt5a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_747m5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u6crp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yyepa")
+}],
+"loop": true,
+"name": &"run",
+"speed": 10.0
+}]
+
+[node name="enemy" type="CharacterBody2D"]
+script = ExtResource("1_keces")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jxg7s")
+animation = &"run"
+autoplay = "run"
+
+[node name="root" type="Node" parent="."]
+script = ExtResource("3_y8m25")
+
+[node name="selector" type="Node" parent="root"]
+script = ExtResource("4_6ants")
+
+[node name="sequnce" type="Node" parent="root/selector"]
+script = ExtResource("5_3qj4c")
+
+[node name="get player position" type="Node" parent="root/selector/sequnce"]
+script = ExtResource("6_255fv")
+
+[node name="is find player" type="Node" parent="root/selector/sequnce"]
+script = ExtResource("7_voma2")
+
+[node name="go to player" type="Node" parent="root/selector/sequnce"]
+script = ExtResource("8_jsj6b")
+
+[node name="idle" type="Node" parent="root/selector"]
+script = ExtResource("5_q2etk")
